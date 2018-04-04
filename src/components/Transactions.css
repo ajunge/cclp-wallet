@@ -1,7 +1,14 @@
 .Transaction {
-  background-color: #E8EAF6;
   margin-top: 2vh;
   font-size: 2vmin;
+  overflow-x: auto;
+  overflow-y: hidden;
+  display: flex;
+  justify-content: center;
+}
+
+.Table {
+  background-color: #E8EAF6
 }
 
 .TableHeader {
@@ -9,9 +16,10 @@
   color: white;
 }
 
-@media (max-width: 800px) {
-  .Transaction {
-    width: 100%;
-    overflow-x: auto;
-  }
+.Minus {
+  color: red;
+}
+
+.Plus {
+  color: green;
 }
