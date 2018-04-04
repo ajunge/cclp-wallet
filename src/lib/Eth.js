@@ -1,4 +1,5 @@
 import Web3 from 'web3'
+import { RestrictedTransferToken} from 'cclp-contracts'
 
 let web3 = window.web3
 
@@ -37,6 +38,30 @@ export function accounts() {
   })
 }
 
-export function getBalance(address) {
+export function getWeiBalance(address) {
   return web3.eth.getBalance(address)
+}
+
+//let instanceContract = null
+/*
+export function initContract() {
+  web3.eth.net.getId().then(networkId => {
+    let artifact = RestrictedTransferToken.v1;
+    let abi = artifact.abi;
+    let addr = artifact.networks[networkId].address
+
+    let contract = web3.eth.contract(abi);
+    instanceContract = contract.at(addr)
+  })
+}*/
+
+export function balance(address) {
+  return web3.eth.net.getId().then(networkId => {
+    let artifact = RestrictedTransferToken.v1;
+    let abi = artifact.abi;
+    let addr = artifact.networks[networkId].address
+
+    let instance = new web3.eth.Contract(abi, addr);
+    return instance.methods.balanceOf(address).call()
+  })
 }

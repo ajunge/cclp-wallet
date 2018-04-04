@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import './Wallet.css';
-import {version, accounts, getBalance} from '../lib/Eth'
+import {version, accounts, getWeiBalance, balance} from '../lib/Eth'
 
 const WEIMAX = 10000000000000000000
 
@@ -8,7 +8,8 @@ class Wallet extends Component {
   state = {
     version: '',
     account: '',
-    balance: 0
+    balance: 0,
+    cCLP: 0
   }
 
   componentDidMount() {
@@ -18,7 +19,8 @@ class Wallet extends Component {
       this.setState({account: account})
       return account
     }).then(account => {
-      getBalance(account).then(balance => this.setState({balance}))
+      getWeiBalance(account).then(balance => this.setState({balance}))
+      balance(account).then(cCLP => this.setState({cCLP}))
     })
   }
 
@@ -32,7 +34,7 @@ class Wallet extends Component {
           <i className={"fas fa-2x fa-battery-" + battery} />
         </div>
         <div className="Balance">
-          <label className="Amount">0</label>
+          <label className="Amount">{this.state.cCLP}</label>
           <label>cCLP</label>
         </div>
         <div className="Address">
@@ -40,6 +42,7 @@ class Wallet extends Component {
         </div>
         <div className="Transfer">
           <form className="pure-form">
+            <input placeholder="Monto" className="pure-input-1"/>
             <input placeholder="Direccion" className="pure-input-1"/>
             <button className="Send pure-button pure-input-1 pure-button-primary">Enviar</button>
           </form>
