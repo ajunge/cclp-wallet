@@ -1,7 +1,6 @@
 .Wallet {
   background-color: #E8EAF6;
   padding: 30px 20px;
-  width: 80vw;
   text-align: center;
 }
 
@@ -45,10 +44,6 @@
 }
 
 @media (min-width: 800px) {
-  .Wallet {
-    width: 40vw;
-  }
-
   .Address {
     font-size: 1.1vmax;
   }

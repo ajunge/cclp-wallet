@@ -4,3 +4,13 @@
   align-items: center;
   padding-top: 4vh;
 }
+
+.Main {
+  width: 100vw;
+}
+
+@media (min-width: 1280px) {
+  .Main {
+    width: 50vw;
+  }
+}

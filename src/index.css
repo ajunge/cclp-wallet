@@ -16,6 +16,10 @@ button {
   font-size: 4vh;
 }
 
+table {
+  width: 100%;
+}
+
 td, th {
   padding: 10px;
   border-bottom: 1px solid #5C6BC0;
