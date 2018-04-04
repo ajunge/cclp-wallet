@@ -24,7 +24,7 @@ class Wallet extends Component {
 
   render() {
     let battery = batteryLevel(this.state.balance / WEIMAX)
-    
+
     return (
       <div className="Wallet">
         <div className="Icons">
