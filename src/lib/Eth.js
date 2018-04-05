@@ -1,5 +1,5 @@
 import Web3 from 'web3'
-import { RestrictedTransferToken} from 'cclp-contracts'
+import { cCLP} from 'cclp-contracts'
 
 let web3 = window.web3
 
@@ -57,7 +57,7 @@ export function initContract() {
 
 export function balance(address) {
   return web3.eth.net.getId().then(networkId => {
-    let artifact = RestrictedTransferToken.v1;
+    let artifact = cCLP.v1;
     let abi = artifact.abi;
     let addr = artifact.networks[networkId].address
 
