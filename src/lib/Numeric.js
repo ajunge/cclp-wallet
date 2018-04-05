@@ -15,7 +15,7 @@ numeral.register('locale', 'cl', {
         return number === 1 ? 'er' : 'ème';
     },
     currency: {
-        symbol: '€'
+        symbol: 'cCLP'
     }
 });
 
