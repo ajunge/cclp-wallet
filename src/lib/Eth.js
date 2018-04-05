@@ -42,30 +42,32 @@ export function getWeiBalance(address) {
   return web3.eth.getBalance(address)
 }
 
-//let instanceContract = null
-/*
+let instanceContract = null
+
 export function initContract() {
-  web3.eth.net.getId().then(networkId => {
-    let artifact = RestrictedTransferToken.v1;
-    let abi = artifact.abi;
-    let addr = artifact.networks[networkId].address
-
-    let contract = web3.eth.contract(abi);
-    instanceContract = contract.at(addr)
-  })
-}*/
-
-export function balance(address) {
   return web3.eth.net.getId().then(networkId => {
     let artifact = cCLP.v1;
     let abi = artifact.abi;
     let addr = artifact.networks[networkId].address
-
-    let instance = new web3.eth.Contract(abi, addr);
-    return instance.methods.balanceOf(address).call()
+    instanceContract = new web3.eth.Contract(abi, addr);
   })
+}
+
+export function balance(address) {
+  if (instanceContract !== null) {
+    return instanceContract.methods.balanceOf(address).call()
+  }
+  return 0
 }
 
 export function isAddress(address) {
   return web3.utils.isAddress(address)
+}
+
+export function isAllowed(address) {
+  return instanceContract.methods.isAllowed(address).call()
+}
+
+export function transfer(from, address, amount) {
+  return instanceContract.methods.transfer(address, amount).send({from})
 }

@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import {isAddress} from '../lib/Eth'
+import {isAddress, isAllowed, transfer} from '../lib/Eth'
 import './Transfer.css'
 
 const Errors = {
@@ -12,7 +12,9 @@ export default class Transfer extends Component {
   state = {
     amount: '',
     address: '',
-    errors: {...Errors}
+    success: false,
+    errors: {...Errors},
+    loading: false
   }
 
   clearErrors() {
@@ -47,12 +49,28 @@ export default class Transfer extends Component {
       this.setState({errors: {...this.state.errors, general: 'La dirección no es válida'}})
       return
     }
+    this.setState({loading: true})
+    isAllowed(address)
+      .then(a => a ? Promise.resolve() : Promise.reject('Direccion no permitida'))
+      .then(this.doTransfer)
+      .then(this.transferSuccess)
+      .catch(this.onError)
+  }
 
-    let data = {
-      amount: parseInt(this.state.amount, 10),
-      address
-    }
-    console.log('submit', data)
+  doTransfer = () => {
+    let amount = parseInt(this.state.amount, 10)
+    let to = this.state.address
+    console.log('submit', to, amount)
+    return transfer(this.props.address, to, amount)
+  }
+
+  transferSuccess = (result) => {
+    console.log(result)
+    this.setState({loading: false, success: true})
+  }
+
+  onError = (e) => {
+    this.setState({loading: false, errors: {...this.state.errors, general: e.message ? e.message : e}})
   }
 
   render() {
@@ -73,7 +91,10 @@ export default class Transfer extends Component {
             </span>
           </div>
           <div className="ErrorMessage">{errors.general}</div>
-          <button className="Send pure-button pure-input-1 pure-button-primary">Enviar</button>
+          <div className="SuccessMessage" onClick={() => this.setState({success: false})}>{this.state.success ? 'Transacción ejecutada' : ''}</div>
+          <button className="Send pure-button pure-input-1 pure-button-primary" disabled={this.state.loading}>
+            {this.state.loading ? <i className="fas fa-circle-notch fa-spin"/> : 'Enviar'}
+          </button>
         </form>
       </div>
     );

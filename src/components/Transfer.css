@@ -28,3 +28,16 @@
 .ErrorMessage:empty {
   display: none;
 }
+
+.SuccessMessage {
+  background-color: #4CAF50;
+  color: white;
+  text-align: center;
+  padding: 10px;
+  border-radius: 3px;
+  font-weight: bold;
+}
+
+.SuccessMessage:empty {
+  display: none;
+}

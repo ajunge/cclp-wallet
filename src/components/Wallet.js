@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import Transfer from './Transfer'
 import {formatcCLP} from '../lib/Numeric'
-import {version, accounts, getWeiBalance, balance} from '../lib/Eth'
+import {initContract, version, accounts, getWeiBalance, balance} from '../lib/Eth'
 import './Wallet.css';
 
 const WEIMAX = 10000000000000000000
@@ -15,8 +15,10 @@ export default class Wallet extends Component {
   }
 
   componentDidMount() {
-    version().then(version => this.setState({version}))
-    accounts().then(this.setAccounts).then(this.setBalances).catch(console.error)
+    initContract().then(() => {
+      version().then(version => this.setState({version}))
+      accounts().then(this.setAccounts).then(this.setBalances).catch(console.error)
+    })
   }
 
   setAccounts = (accounts) => {
@@ -37,7 +39,7 @@ export default class Wallet extends Component {
         <Battery balance={this.state.balance} version={this.state.version}/>
         <Balance cCLP={this.state.cCLP}/>
         <Address account={this.state.account}/>
-        <Transfer />
+        <Transfer address={this.state.account}/>
       </div>
     );
   }
