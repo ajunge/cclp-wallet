@@ -16,12 +16,14 @@ class Wallet extends Component {
     version().then(version => this.setState({version}))
     accounts().then(accounts => {
       let account = accounts[0]
+      if (!account) return Promise.reject('No hay cuenta')
       this.setState({account: account})
       return account
     }).then(account => {
+      console.log(account)
       getWeiBalance(account).then(balance => this.setState({balance}))
       balance(account).then(cCLP => this.setState({cCLP}))
-    })
+    }).catch(console.error)
   }
 
   render() {
