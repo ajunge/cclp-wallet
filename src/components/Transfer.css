@@ -1,0 +1,30 @@
+.Transfer {
+  margin-top: 2vh;
+  text-align: left;
+}
+
+.Send {
+  margin-top: 1vh;
+}
+
+.RequiredMessage {
+  font-style: italic;
+  font-size: 12px;
+}
+
+.Error {
+  color: red;
+}
+
+.ErrorMessage {
+  background-color: #F44336;
+  color: white;
+  text-align: center;
+  padding: 10px;
+  border-radius: 3px;
+  font-weight: bold;
+}
+
+.ErrorMessage:empty {
+  display: none;
+}

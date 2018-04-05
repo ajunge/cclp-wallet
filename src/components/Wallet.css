@@ -1,6 +1,6 @@
 .Wallet {
   background-color: #E8EAF6;
-  padding: 30px 20px;
+  padding: 10px 20px;
   text-align: center;
 }
 
@@ -13,14 +13,6 @@
 .Amount {
   font-size: 4em;
   font-weight: bold;
-}
-
-.Transfer {
-  margin-top: 2vh;
-}
-
-.Send {
-  margin-top: 1vh;
 }
 
 .Icons {

@@ -1,11 +1,12 @@
 import React, { Component } from 'react';
-import './Wallet.css';
+import Transfer from './Transfer'
 import {formatcCLP} from '../lib/Numeric'
 import {version, accounts, getWeiBalance, balance} from '../lib/Eth'
+import './Wallet.css';
 
 const WEIMAX = 10000000000000000000
 
-class Wallet extends Component {
+export default class Wallet extends Component {
   state = {
     version: '',
     account: '',
@@ -15,45 +16,52 @@ class Wallet extends Component {
 
   componentDidMount() {
     version().then(version => this.setState({version}))
-    accounts().then(accounts => {
-      let account = accounts[0]
-      if (!account) return Promise.reject('No hay cuenta')
-      this.setState({account: account})
-      return account
-    }).then(account => {
-      console.log(account)
-      getWeiBalance(account).then(balance => this.setState({balance}))
-      balance(account).then(cCLP => this.setState({cCLP}))
-    }).catch(console.error)
+    accounts().then(this.setAccounts).then(this.setBalances).catch(console.error)
+  }
+
+  setAccounts = (accounts) => {
+    let account = accounts[0]
+    if (!account) return Promise.reject('No hay cuenta')
+    this.setState({account: account})
+    return account
+  }
+
+  setBalances = (account) => {
+    getWeiBalance(account).then(balance => this.setState({balance}))
+    balance(account).then(cCLP => this.setState({cCLP}))
   }
 
   render() {
-    let battery = batteryLevel(this.state.balance / WEIMAX)
-
     return (
       <div className="Wallet">
-        <div className="Icons">
-          <span className="Icon">{this.state.version}</span>
-          <i className={"fas fa-2x fa-battery-" + battery} />
-        </div>
-        <div className="Balance">
-          <label className="Amount">{formatcCLP(this.state.cCLP)}</label>
-          <label>cCLP</label>
-        </div>
-        <div className="Address">
-          <p>{this.state.account}</p>
-        </div>
-        <div className="Transfer">
-          <form className="pure-form">
-            <input placeholder="Monto" className="pure-input-1"/>
-            <input placeholder="Direccion" className="pure-input-1"/>
-            <button className="Send pure-button pure-input-1 pure-button-primary">Enviar</button>
-          </form>
-        </div>
+        <Battery balance={this.state.balance} version={this.state.version}/>
+        <Balance cCLP={this.state.cCLP}/>
+        <Address account={this.state.account}/>
+        <Transfer />
       </div>
     );
   }
 }
+
+const Battery = ({balance, version}) => (
+  <div className="Icons">
+    <span className="Icon">{version}</span>
+    <i className={"fas fa-2x fa-battery-" + batteryLevel(balance / WEIMAX)} />
+  </div>
+)
+
+const Balance = ({cCLP}) => (
+  <div className="Balance">
+    <label className="Amount">{formatcCLP(cCLP)}</label>
+    <label>cCLP</label>
+  </div>
+)
+
+const Address = ({account}) => (
+  <div className="Address">
+    <p>{account}</p>
+  </div>
+)
 
 function batteryLevel(fuel) {
   let battery = 'full'
@@ -68,5 +76,3 @@ function batteryLevel(fuel) {
   }
   return battery
 }
-
-export default Wallet;
