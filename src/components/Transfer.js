@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import {isAddress} from '../lib/Eth'
 import './Transfer.css'
 
 const Errors = {
@@ -24,7 +25,7 @@ export default class Transfer extends Component {
     let amount = e.target.value
     let error = ''
     if (isNaN(amount)) {
-      error = 'El monto debe ser numerico'
+      error = 'El mónto debe ser numerico'
     }
     this.setState({amount, errors: {...this.state.errors, amount: error}})
   }
@@ -39,11 +40,11 @@ export default class Transfer extends Component {
     let {amount, address} = this.state
 
     if (isNaN(amount)) {
-      this.setState({errors: {...this.state.errors, general: 'El monto es requerido'}})
+      this.setState({errors: {...this.state.errors, general: 'El mónto es requerido'}})
       return
     }
-    if (address.trim().length === 0) {
-      this.setState({errors: {...this.state.errors, general: 'La direccion es requerida'}})
+    if (!isAddress(address)) {
+      this.setState({errors: {...this.state.errors, general: 'La dirección no es válida'}})
       return
     }
 
@@ -80,9 +81,9 @@ export default class Transfer extends Component {
 }
 
 function amountMessage(msg) {
-  return msg !== '' ? msg : 'Monto en cCLP a transferir'
+  return msg !== '' ? msg : 'Mónto en cCLP a transferir'
 }
 
 function addressMessage(msg) {
-  return msg !== '' ? msg : 'Direccion Ethereum destino'
+  return msg !== '' ? msg : 'Dirección ethereum destino'
 }

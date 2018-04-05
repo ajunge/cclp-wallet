@@ -65,3 +65,7 @@ export function balance(address) {
     return instance.methods.balanceOf(address).call()
   })
 }
+
+export function isAddress(address) {
+  return web3.utils.isAddress(address)
+}
