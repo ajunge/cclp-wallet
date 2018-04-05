@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import './Wallet.css';
+import {formatcCLP} from '../lib/Numeric'
 import {version, accounts, getWeiBalance, balance} from '../lib/Eth'
 
 const WEIMAX = 10000000000000000000
@@ -36,7 +37,7 @@ class Wallet extends Component {
           <i className={"fas fa-2x fa-battery-" + battery} />
         </div>
         <div className="Balance">
-          <label className="Amount">{this.state.cCLP}</label>
+          <label className="Amount">{formatcCLP(this.state.cCLP)}</label>
           <label>cCLP</label>
         </div>
         <div className="Address">
