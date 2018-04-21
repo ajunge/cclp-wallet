@@ -71,3 +71,14 @@ export function isAllowed(address) {
 export function transfer(from, address, amount) {
   return instanceContract.methods.transfer(address, amount).send({from})
 }
+
+export function subscribe(address) {
+  console.log(web3.eth.filter())
+  /*console.log('subscribe')
+  let subscription = web3.eth.subscribe('logs', {
+    address
+  }, function(error, result) {
+    if (!error) return console.log(result)
+    console.log(error)
+  })*/
+}
