@@ -4,7 +4,7 @@ import './Transactions.css'
 
 export default class Transactions extends Component {
   componentDidMount() {
-    accounts().then(this.subscribeAccount).catch(console.error)
+    //accounts().then(this.subscribeAccount).catch(console.error)
   }
 
   subscribeAccount(accs) {

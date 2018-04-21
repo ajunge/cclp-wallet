@@ -73,7 +73,6 @@ export function transfer(from, address, amount) {
 }
 
 export function subscribe(address) {
-  console.log(web3.eth.filter())
   /*console.log('subscribe')
   let subscription = web3.eth.subscribe('logs', {
     address
