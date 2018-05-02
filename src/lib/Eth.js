@@ -80,3 +80,7 @@ export function filterTransactions(address) {
     fromBlock: 0,
     toBlock: 'latest'})
 }
+
+export function getBlock(block) {
+  return web3.eth.getBlock(block)
+}

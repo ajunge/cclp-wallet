@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import {initContract, version, accounts, filterTransactions, getWeiBalance,
-  balance} from './lib/Eth'
+  balance, getBlock} from './lib/Eth'
 import Wallet from './components/Wallet'
 import Transaction from './components/Transactions'
 import './App.css';
@@ -40,13 +40,27 @@ class App extends Component {
 
   getTransactions = (address) => {
     filterTransactions(address).then(events => {
-      this.setState({transactions: events.filter(e => e.returnValues._from === address || e.returnValues._to === address).map(e => ({
+      let transactions = events.filter(e => e.returnValues._from === address || e.returnValues._to === address).map(e => ({
         from: e.returnValues._from,
         to: e.returnValues._to,
         value: e.returnValues._value,
         block: e.blockNumber,
         hash: e.transactionHash
-      }))})
+      }))
+
+      let promises = []
+      for (let i = 0; i < transactions.length; i++) {
+        let block = transactions[i].block
+        promises.push(getBlock(block).then(t => ({block, value: new Date(t.timestamp * 1000).toString()})))
+      }
+
+      return Promise.all(promises).then(dates => {
+        this.setState({transactions: transactions.map(t => ({
+          ...t,
+          date: dates.find(d => d.block === t.block)
+        }))})
+      })
+
     }).catch(console.error)
   }
 

@@ -23,7 +23,7 @@ export default class Transactions extends Component {
             {transactions.map((t, i) => (
               <tr key={i}>
                 <td>{i}</td>
-                <td>04/04/2012 13:24:34</td>
+                <td>{t.date.value}</td>
                 <td>{t.from === account ? t.to : t.from}</td>
                 <td><i className={t.from === account ? MINUS : PLUS}/></td>
                 <td>{t.value}</td>
