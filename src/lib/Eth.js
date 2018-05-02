@@ -48,6 +48,7 @@ export function initContract() {
   return web3.eth.net.getId().then(networkId => {
     let artifact = cCLP.v1;
     let abi = artifact.abi;
+    console.log(networkId, artifact.networks)
     let addr = artifact.networks[networkId].address
     instanceContract = new web3.eth.Contract(abi, addr);
   })
@@ -72,12 +73,10 @@ export function transfer(from, address, amount) {
   return instanceContract.methods.transfer(address, amount).send({from})
 }
 
-export function subscribe(address) {
-  /*console.log('subscribe')
-  let subscription = web3.eth.subscribe('logs', {
-    address
-  }, function(error, result) {
-    if (!error) return console.log(result)
-    console.log(error)
-  })*/
+export function filterTransactions(address) {
+  console.log('buscando eventos', address)
+  return instanceContract.getPastEvents('Transfer', {
+    filter: {to: address},
+    fromBlock: 0,
+    toBlock: 'latest'})
 }

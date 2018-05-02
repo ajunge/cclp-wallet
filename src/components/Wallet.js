@@ -1,49 +1,18 @@
-import React, { Component } from 'react';
+import React from 'react';
 import Transfer from './Transfer'
 import {formatcCLP} from '../lib/Numeric'
-import {initContract, version, accounts, getWeiBalance, balance} from '../lib/Eth'
 import './Wallet.css';
 
+export default ({version, balance, account, cCLP}) => (
+  <div className="Wallet">
+    <Battery balance={balance} version={version}/>
+    <Balance cCLP={cCLP}/>
+    <Address account={account}/>
+    <Transfer address={account}/>
+  </div>
+)
+
 const WEIMAX = 10000000000000000000
-
-export default class Wallet extends Component {
-  state = {
-    version: '',
-    account: '',
-    balance: 0,
-    cCLP: 0
-  }
-
-  componentDidMount() {
-    initContract().then(() => {
-      version().then(version => this.setState({version}))
-      accounts().then(this.setAccounts).then(this.setBalances).catch(console.error)
-    })
-  }
-
-  setAccounts = (accounts) => {
-    let account = accounts[0]
-    if (!account) return Promise.reject('No hay cuenta')
-    this.setState({account: account})
-    return account
-  }
-
-  setBalances = (account) => {
-    getWeiBalance(account).then(balance => this.setState({balance}))
-    balance(account).then(cCLP => this.setState({cCLP}))
-  }
-
-  render() {
-    return (
-      <div className="Wallet">
-        <Battery balance={this.state.balance} version={this.state.version}/>
-        <Balance cCLP={this.state.cCLP}/>
-        <Address account={this.state.account}/>
-        <Transfer address={this.state.account}/>
-      </div>
-    );
-  }
-}
 
 const Battery = ({balance, version}) => (
   <div className="Icons">
