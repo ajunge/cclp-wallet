@@ -1,4 +1,5 @@
 import React, {Component} from 'react';
+import moment from '../lib/Moment'
 import './Transactions.css'
 
 const MINUS = "fas fa-minus Minus"
@@ -23,7 +24,7 @@ export default class Transactions extends Component {
             {transactions.map((t, i) => (
               <tr key={i}>
                 <td>{i}</td>
-                <td>{t.date.value}</td>
+                <td>{moment(t.date.value).format('DD/MM/YYYY hh:mm:ss')}</td>
                 <td>{t.from === account ? t.to : t.from}</td>
                 <td><i className={t.from === account ? MINUS : PLUS}/></td>
                 <td>{t.value}</td>

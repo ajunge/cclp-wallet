@@ -51,7 +51,7 @@ class App extends Component {
       let promises = []
       for (let i = 0; i < transactions.length; i++) {
         let block = transactions[i].block
-        promises.push(getBlock(block).then(t => ({block, value: new Date(t.timestamp * 1000).toString()})))
+        promises.push(getBlock(block).then(t => ({block, value: new Date(t.timestamp * 1000).toISOString()})))
       }
 
       return Promise.all(promises).then(dates => {
